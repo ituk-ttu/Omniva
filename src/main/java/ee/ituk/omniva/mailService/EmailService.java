@@ -25,7 +25,7 @@ public class EmailService {
     @Resource
     private final VelocityEngine velocityEngine;
 
-    public CompletableFuture<Response> sendEmail(String type) {
+    public CompletableFuture<Response> sendEmail(String mentorID, String minionName, String minionEmail) {
         VelocityContext context = createContext();
        /* context.put("ticket", ticket);
         context.put("ticketType", ticketType);
@@ -56,7 +56,6 @@ public class EmailService {
                 .to(to)
                 .subject(subject)
                 .html(renderTemplate("html/" + templateName, context))
-                .text(renderTemplate("plain/" + templateName, context))
                 .build();
         return sendAsync(mail);
     }
