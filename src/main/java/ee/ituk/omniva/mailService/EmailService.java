@@ -47,12 +47,8 @@ public class EmailService {
             case "ticketConfirmed":
                 return sendAsync(getOwnerId(ticket.getOwnerId()), "ticketConfirmed", context, "Pilet kinnitatud / Ticket Confirmed");
         }
-        throw new RuntimeException();*/
+       */ throw new RuntimeException();
     }
-
-    /*rivate String getOwnerId(Integer ownerId) {
-        return userService.getUserEmail(ownerId);
-    }*/
 
     private CompletableFuture<Response> sendAsync(String to, String templateName, VelocityContext context,
                                                   String subject) {
