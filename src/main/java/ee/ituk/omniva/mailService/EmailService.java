@@ -1,10 +1,9 @@
 package ee.ituk.omniva.mailService;
 
 import ee.ituk.omniva.config.MailgunConfiguration;
+import ee.ituk.omniva.userService.UserService;
 import lombok.RequiredArgsConstructor;
-import net.sargue.mailgun.Mail;
-import net.sargue.mailgun.MailRequestCallback;
-import net.sargue.mailgun.Response;
+import net.sargue.mailgun.*;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.stereotype.Service;
@@ -19,35 +18,39 @@ import java.util.concurrent.CompletableFuture;
 public class EmailService {
 
     public static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     @Resource
     private final MailgunConfiguration mailgunConfig;
 
     @Resource
     private final VelocityEngine velocityEngine;
 
-    public CompletableFuture<Response> sendEmail(String mentorID, String minionName, String minionEmail) {
+    private VelocityContext minionContext(String minionName, String minionEmail) {
         VelocityContext context = createContext();
-       /* context.put("ticket", ticket);
-        context.put("ticketType", ticketType);
-        context.put("ticketOffering", ticketOffering);
-        context.put("perPerson", personCost.toString());
-        context.put("invoiceNumber",
-                "2019-359027-" + "000".substring(Integer.toString(ticket.getId()).length()) + ticket.getId());
-        context.put("payByDate",
-                OffsetDateTime.ofInstant(ticket.getDateCreated().plusDays(3).toInstant(), ZoneId.systemDefault()));
-        context.put("date", OffsetDateTime.now());
-        String to = getOwnerId(ticket.getOwnerId());
-        switch (type) {
-            case "ticketReserved":
-                return sendAsync(to, "ticketReserved", context, "Pilet reserveeritud / Ticket Reserved");
-            case "ticketWaiting":
-                return sendAsync(getOwnerId(ticket.getOwnerId()), "ticketWaiting", context, "Pilet ootel / Ticket In Waiting List ");
-            case "ticketCanceled":
-                return sendAsync(getOwnerId(ticket.getOwnerId()), "ticketCanceled", context, "Pilet tühistatud / Ticket Canceled");
-            case "ticketConfirmed":
-                return sendAsync(getOwnerId(ticket.getOwnerId()), "ticketConfirmed", context, "Pilet kinnitatud / Ticket Confirmed");
-        }
-       */ throw new RuntimeException();
+        context.put("Beginning", "Hei!");
+        context.put("Intro", "Sulle on tekkinud uus minion!");
+        context.put("name", minionName);
+        context.put("minionEmail", minionEmail);
+        context.put("Ending", "Võta temaga ASAP ühendust!");
+        return context;
+    }
+
+    private VelocityContext passwordContext() {
+        VelocityContext context = createContext();
+
+        context.put("Beginning", "Hei!");
+        context.put("Intro", "Klikkides all oleval lingil s aad taastada oma Hub-i kasutaja parooli.");
+        context.put("Link", link);
+        context.put("Ending", "Kui sina ei proovinud oma parooli taastada, siis võid kirja rahulikult kustudada!");
+
+        return context;
+    }
+
+    public CompletableFuture<Response> sendPasswordEmail(String to) {
+        return sendAsync(to, "password", passwordContext(), "ITÜK hub kasutaja");
+    }
+    public CompletableFuture<Response> sendEmail(String mentorEmail, String minionEmail, String minionName) {
+                return sendAsync(mentorEmail, "minion", minionContext(minionName, minionEmail), "Uus minion");
     }
 
     private CompletableFuture<Response> sendAsync(String to, String templateName, VelocityContext context,
@@ -56,6 +59,7 @@ public class EmailService {
                 .to(to)
                 .subject(subject)
                 .html(renderTemplate("html/" + templateName, context))
+                .text(renderTemplate("plain/" + templateName, context))
                 .build();
         return sendAsync(mail);
     }
