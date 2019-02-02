@@ -28,6 +28,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	compile('net.sargue:mailgun:1.5.0')
 	compile('org.apache.velocity:velocity-engine-core:2.0')
+	compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.6'
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation "io.springfox:springfox-swagger2:2.9.2"

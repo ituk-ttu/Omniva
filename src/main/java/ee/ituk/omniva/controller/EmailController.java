@@ -5,10 +5,7 @@ import ee.ituk.omniva.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -28,7 +25,7 @@ public class EmailController {
         System.out.println("yo");
     }
 
-    @GetMapping("/newMinion")
+    @PostMapping("/newMinion")
     public void sendNewMinionEmail(Integer mentorId, Integer minionId) {
         String to = userService.getEmailRecipientAadress(mentorId);
         String minionName = userService.getMinionName(minionId);
