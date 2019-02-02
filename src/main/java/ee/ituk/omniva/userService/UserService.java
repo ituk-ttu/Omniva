@@ -1,5 +1,8 @@
 package ee.ituk.omniva.userService;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class UserService {
 
     /**

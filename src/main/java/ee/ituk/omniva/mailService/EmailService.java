@@ -40,7 +40,7 @@ public class EmailService {
 
         context.put("Beginning", "Hei!");
         context.put("Intro", "Klikkides all oleval lingil s aad taastada oma Hub-i kasutaja parooli.");
-        context.put("Link", link);
+        context.put("Link", "asd"); // TODO: Get link from SSO or somewhere...
         context.put("Ending", "Kui sina ei proovinud oma parooli taastada, siis võid kirja rahulikult kustudada!");
 
         return context;
@@ -50,11 +50,12 @@ public class EmailService {
         return sendAsync(to, "password", passwordContext(), "ITÜK hub kasutaja");
     }
     public CompletableFuture<Response> sendEmail(String mentorEmail, String minionEmail, String minionName) {
-                return sendAsync(mentorEmail, "minion", minionContext(minionName, minionEmail), "Uus minion");
+        return sendAsync(mentorEmail, "newMinion", minionContext(minionName, minionEmail), "Uus minion");
     }
 
     private CompletableFuture<Response> sendAsync(String to, String templateName, VelocityContext context,
                                                   String subject) {
+
         Mail mail = Mail.using(mailgunConfig)
                 .to(to)
                 .subject(subject)
@@ -66,6 +67,7 @@ public class EmailService {
 
     private CompletableFuture<Response> sendAsync(Mail mail) {
         CompletableFuture<Response> future = new CompletableFuture<>();
+
         mail.sendAsync(new MailRequestCallback() {
             @Override
             public void completed(Response response) {
