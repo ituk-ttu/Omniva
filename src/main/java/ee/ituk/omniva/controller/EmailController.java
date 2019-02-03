@@ -25,7 +25,7 @@ public class EmailController {
         String minionName = userService.getMinionName(minionId);
         String minionEmail = userService.getMinionName(minionId);
 //        emailService.sendEmail(to, minionName, minionEmail);
-        emailService.sendEmail("martinkalvikk@gmail.com","BOI", "BOI.COM");
+        emailService.sendEmail("r.ryngenen@gmail.com","BOI", "BOI.COM");
         ResponseEntity.status(HttpStatus.OK).body(null);
 
     }
