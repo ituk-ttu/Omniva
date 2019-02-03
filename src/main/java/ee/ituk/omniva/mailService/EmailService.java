@@ -81,7 +81,7 @@ public class EmailService {
     private String renderTemplate(String templateName, VelocityContext context) {
         StringWriter writer = new StringWriter();
         try {
-            velocityEngine.getTemplate("emailTemplates/" + templateName + ".vm").merge(context, writer);
+            velocityEngine.getTemplate("emailTemplates/" + templateName + ".vm", "UTF-8").merge(context, writer);
             return writer.getBuffer().toString();
         } catch (Exception e) {
             throw new RuntimeException(e);

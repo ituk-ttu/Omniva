@@ -12,7 +12,7 @@
         <p>Sulle on tekkinud uus minion</p>
         <h2>Nimi: $minionName</h2>
         <h2>Email: $minionEmail</h2>
-        <p>Võta temaga ühendust ASAP!</p>
+        <p>Võta temaga ASAP ühendust!</p>
     </div>
 
 </body>
