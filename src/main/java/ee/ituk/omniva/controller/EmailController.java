@@ -19,17 +19,13 @@ public class EmailController {
     @Resource
     UserService userService;
 
-    @GetMapping("/alo")
-    public void sendEmail() {
-        System.out.println("yo");
-    }
-
     @PostMapping("/newMinion")
     public void sendNewMinionEmail(Integer mentorId, Integer minionId) {
         String to = userService.getEmailRecipientAadress(mentorId);
         String minionName = userService.getMinionName(minionId);
         String minionEmail = userService.getMinionName(minionId);
-        emailService.sendEmail("r.ryngenen@gmail.com","BOI", "BOI.COM");
+//        emailService.sendEmail(to, minionName, minionEmail);
+        emailService.sendEmail("martinkalvikk@gmail.com","BOI", "BOI.COM");
         ResponseEntity.status(HttpStatus.OK).body(null);
 
     }
@@ -40,6 +36,4 @@ public class EmailController {
         emailService.sendPasswordEmail(to,uuid);
         ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
-
 }
