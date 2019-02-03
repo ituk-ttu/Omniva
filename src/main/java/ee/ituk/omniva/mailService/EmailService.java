@@ -1,7 +1,6 @@
 package ee.ituk.omniva.mailService;
 
 import ee.ituk.omniva.config.MailgunConfiguration;
-import ee.ituk.omniva.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import net.sargue.mailgun.*;
 import org.apache.velocity.VelocityContext;
