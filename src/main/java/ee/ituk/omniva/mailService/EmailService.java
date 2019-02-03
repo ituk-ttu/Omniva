@@ -33,17 +33,12 @@ public class EmailService {
 
     private VelocityContext passwordContext(String uuid) {
         VelocityContext context = createContext();
-
-        context.put("Beginning", "Hei!");
-        context.put("Intro", "Klikkides all oleval lingil s aad taastada oma Hub-i kasutaja parooli.");
-        context.put("Link", generatePasswordUrl(uuid));
-        context.put("Ending", "Kui sina ei proovinud oma parooli taastada, siis võid kirja rahulikult kustudada!");
-
+        context.put("link", generatePasswordUrl(uuid));
         return context;
     }
 
     public CompletableFuture<Response> sendPasswordEmail(String to, String uuid) {
-        return sendAsync(to, "password", passwordContext(uuid), "ITÜK hub kasutaja");
+        return sendAsync(to, "newPassword", passwordContext(uuid), "ITÜK hub kasutaja");
     }
     public CompletableFuture<Response> sendEmail(String mentorEmail , String minionName, String minionEmail) {
         return sendAsync(mentorEmail, "newMinion", minionContext(minionName, minionEmail), "Uus minion");

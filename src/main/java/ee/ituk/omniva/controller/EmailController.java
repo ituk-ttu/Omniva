@@ -26,14 +26,15 @@ public class EmailController {
         String minionEmail = userService.getMinionName(minionId);
 //        emailService.sendEmail(to, minionName, minionEmail);
         emailService.sendEmail("r.ryngenen@gmail.com","BOI", "BOI.COM");
-        ResponseEntity.status(HttpStatus.OK).body(null);
+        ResponseEntity.status(HttpStatus.OK).body("Email sent");
 
     }
 
     @PostMapping("/newPassword/id={id}&uuid={uuid}")
     public void sendPasswordEmail(@PathVariable("id") Integer id, @PathVariable("uuid") String uuid) {
         String to = userService.getMinionEmail(id);
-        emailService.sendPasswordEmail(to,uuid);
-        ResponseEntity.status(HttpStatus.OK).body(null);
+        //emailService.sendPasswordEmail(to,uuid);
+        emailService.sendPasswordEmail("r.ryngenen@gmail.com","132");
+        ResponseEntity.status(HttpStatus.OK).body("Email sent");
     }
 }
