@@ -2,7 +2,6 @@ package ee.ituk.omniva.controller;
 
 import ee.ituk.omniva.mailService.EmailService;
 import ee.ituk.omniva.userService.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,11 +34,12 @@ public class EmailController {
 
     }
 
-    @GetMapping("/newPassword/{id}")
-    public void sendPasswordEmail(@PathVariable Integer id) {
+    @PostMapping("/newPassword/id={id}&uuid={uuid}")
+    public void sendPasswordEmail(@PathVariable("id") Integer id, @PathVariable("uuid") String uuid) {
         String to = userService.getMinionEmail(id);
-        emailService.sendPasswordEmail(to);
+        emailService.sendPasswordEmail(to,uuid);
         ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
 
 }

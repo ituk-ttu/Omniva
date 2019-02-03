@@ -26,29 +26,26 @@ public class EmailService {
 
     private VelocityContext minionContext(String minionName, String minionEmail) {
         VelocityContext context = createContext();
-        context.put("Beginning", "Hei!");
-        context.put("Intro", "Sulle on tekkinud uus minion!");
-        context.put("name", minionName);
+        context.put("minionName", minionName);
         context.put("minionEmail", minionEmail);
-        context.put("Ending", "Võta temaga ASAP ühendust!");
         return context;
     }
 
-    private VelocityContext passwordContext() {
+    private VelocityContext passwordContext(String uuid) {
         VelocityContext context = createContext();
 
         context.put("Beginning", "Hei!");
         context.put("Intro", "Klikkides all oleval lingil s aad taastada oma Hub-i kasutaja parooli.");
-        context.put("Link", "asd"); // TODO: Get link from SSO or somewhere...
+        context.put("Link", generatePasswordUrl(uuid));
         context.put("Ending", "Kui sina ei proovinud oma parooli taastada, siis võid kirja rahulikult kustudada!");
 
         return context;
     }
 
-    public CompletableFuture<Response> sendPasswordEmail(String to) {
-        return sendAsync(to, "password", passwordContext(), "ITÜK hub kasutaja");
+    public CompletableFuture<Response> sendPasswordEmail(String to, String uuid) {
+        return sendAsync(to, "password", passwordContext(uuid), "ITÜK hub kasutaja");
     }
-    public CompletableFuture<Response> sendEmail(String mentorEmail, String minionEmail, String minionName) {
+    public CompletableFuture<Response> sendEmail(String mentorEmail , String minionName, String minionEmail) {
         return sendAsync(mentorEmail, "newMinion", minionContext(minionName, minionEmail), "Uus minion");
     }
 
@@ -95,5 +92,9 @@ public class EmailService {
         VelocityContext context = new VelocityContext();
         context.put("datePattern", DATE_PATTERN);
         return context;
+    }
+
+    private String generatePasswordUrl(String uuid) {
+        return String.format("www.hub.ituk.ee/auth/recovery/%s", uuid);
     }
 }
